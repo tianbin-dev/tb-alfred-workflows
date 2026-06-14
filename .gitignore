@@ -3,3 +3,8 @@ node_modules/
 .DS_Store
 test.sh
 *.log
+dist/
+venv/
+.venv/
+__pycache__/
+*.pyc
