@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>com.alfredworkflow.url-to-qrcode</string>
+	<key>createdby</key>
+	<string>Tian Bin</string>
+	<key>description</key>
+	<string>Generate QR code from URL</string>
+	<key>name</key>
+	<string>URL to QRCode</string>
+	<key>readme</key>
+	<string>Generate QR code from URL</string>
+	<key>category</key>
+	<string>Productivity</string>
+	<key>version</key>
+	<string>1.0.0</string>
+	<key>uidata</key>
+	<dict>
+		<key>alfredversion</key>
+		<string>5.0</string>
+		<key>objects</key>
+		<array>
+			<dict>
+				<key>type</key>
+				<string>alfred.workflow.input.keyword</string>
+				<key>config</key>
+				<dict>
+					<key>keyword</key>
+					<string>qr</string>
+					<key>withspace</key>
+					<true/>
+					<key>argumenttype</key>
+					<string>required</string>
+					<key>title</key>
+					<string>Generate QR Code</string>
+					<key>subtitle</key>
+					<string>Enter URL to generate QR code</string>
+					<key>runningsubtext</key>
+					<string>Generating QR code...</string>
+				</dict>
+				<key>data</key>
+				<dict>
+					<key>uid</key>
+					<string>keyword-input</string>
+				</dict>
+			</dict>
+			<dict>
+				<key>type</key>
+				<string>alfred.workflow.action.script</string>
+				<key>config</key>
+				<dict>
+					<key>script</key>
+					<string>python3 "{alfred_workflow_folder}/generate_qr_code.py" "$1"</string>
+					<key>type</key>
+					<string>python3</string>
+					<key>withspace</key>
+					<true/>
+				</dict>
+				<key>data</key>
+				<dict>
+					<key>uid</key>
+					<string>python-script</string>
+				</dict>
+			</dict>
+		</array>
+		<key>connections</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>python-script</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>sourceuid</key>
+				<string>keyword-input</string>
+			</dict>
+		</array>
+	</dict>
+</dict>
+</plist>

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>com.custom.obsidian-quick-note</string>
+	<key>category</key>
+	<string>Productivity</string>
+	<key>connections</key>
+	<dict>
+		<key>keyword-on-uid</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>script-run-uid</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>script-run-uid</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>notification-uid</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Obsidian Quick Note</string>
+	<key>description</key>
+	<string>快速记录笔记到 Obsidian 收件箱</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Obsidian Quick Note</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>keyword</key>
+				<string>on</string>
+				<key>subtext</key>
+				<string>输入内容，快速记录到 Obsidian 收件箱</string>
+				<key>text</key>
+				<string>Obsidian Quick Note</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>keyword-on-uid</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>VAULT="$vault_name"
+FILE="$file_name"
+QUERY="{query}"
+TIME=$(date +"%H:%M")
+TEXT="- $TIME $QUERY"
+ENC=$(python3 -c "import urllib.parse,sys; print(urllib.parse.quote(sys.argv[1]))" "$TEXT")
+EV=$(python3 -c "import urllib.parse,sys; print(urllib.parse.quote(sys.argv[1]))" "$VAULT")
+EF=$(python3 -c "import urllib.parse,sys; print(urllib.parse.quote(sys.argv[1]))" "$FILE")
+open "obsidian://new?vault=$EV&amp;file=$EF&amp;content=$ENC&amp;append=true"
+echo "已保存: $TEXT"</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>script-run-uid</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>笔记已保存到 Obsidian 收件箱</string>
+				<key>title</key>
+				<string>Obsidian Quick Note</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>notification-uid</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string>Obsidian Quick Note - Alfred Workflow
+
+使用方法：
+1. Alfred 输入 on + 笔记内容
+2. 回车即可记录到 Obsidian 收件箱
+
+配置：
+点击 Workflow 右上角的 [x] 图标，设置环境变量</string>
+	<key>uidata</key>
+	<dict>
+		<key>keyword-on-uid</key>
+		<dict>
+			<key>xpos</key>
+			<real>40</real>
+			<key>ypos</key>
+			<real>40</real>
+		</dict>
+		<key>script-run-uid</key>
+		<dict>
+			<key>xpos</key>
+			<real>250</real>
+			<key>ypos</key>
+			<real>40</real>
+		</dict>
+		<key>notification-uid</key>
+		<dict>
+			<key>xpos</key>
+			<real>460</real>
+			<key>ypos</key>
+			<real>40</real>
+		</dict>
+	</dict>
+	<key>variables</key>
+	<dict>
+		<key>vault_name</key>
+		<string>tb-ob</string>
+		<key>file_name</key>
+		<string>00_Inbox</string>
+	</dict>
+	<key>version</key>
+	<string>1.0.0</string>
+	<key>webaddress</key>
+	<string></string>
+</dict>
+</plist>

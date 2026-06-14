@@ -1,0 +1,5 @@
+node_modules/
+*.alfredworkflow
+.DS_Store
+test.sh
+*.log

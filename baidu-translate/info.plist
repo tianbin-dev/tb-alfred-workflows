@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>com.example.translator</string>
+	<key>createdby</key>
+	<string></string>
+	<key>description</key>
+	<string>English to Chinese translator using Baidu Translate API (free)</string>
+	<key>name</key>
+	<string>English to Chinese Translator</string>
+	<key>readme</key>
+	<string></string>
+	<key>required_app_version</key>
+	<string>5.0</string>
+	<key>version</key>
+	<string>1.0.0</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<string>alfred.workflow.argument.alfredextension</string>
+				<key>keyword</key>
+				<string>tr</string>
+				<key>subtext</key>
+				<string>Translate English to Chinese</string>
+				<key>title</key>
+				<string>English to Chinese Translator</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>node index.js "{query}"</string>
+				<key>scriptargtype</key>
+				<string>0</string>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<string>1</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>envvars</key>
+				<array>
+					<dict>
+						<key>name</key>
+						<string>BAIDU_APP_ID</string>
+						<key>value</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>BAIDU_APP_KEY</string>
+						<key>value</key>
+						<string></string>
+					</dict>
+				</array>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.env</string>
+		</dict>
+	</array>
+	<key>connections</key>
+	<array>
+		<dict>
+			<key>destinationuid</key>
+			<integer>1</integer>
+			<key>modifiers</key>
+			<integer>0</integer>
+			<key>modifiersubtext</key>
+			<string></string>
+			<key>sourceuid</key>
+			<integer>0</integer>
+		</dict>
+	</array>
+</dict>
+</plist>
