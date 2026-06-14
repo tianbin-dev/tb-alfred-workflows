@@ -94,6 +94,9 @@ TEXT_LINE="- $TIME $QUERY"
 
 mkdir -p "$VAULT_DIR"
 printf '%s\n' "$TEXT_LINE" >> "$NOTE_FILE"
+
+osascript -e "display notification \"$QUERY\" with title \"Obsidian Quick Memo\""
+
 echo "已保存到: $NOTE_FILE"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
