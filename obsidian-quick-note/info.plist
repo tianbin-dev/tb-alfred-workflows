@@ -36,13 +36,13 @@
 		</array>
 	</dict>
 	<key>createdby</key>
-	<string>Obsidian Quick Note</string>
+	<string>Obsidian Quick Memo</string>
 	<key>description</key>
-	<string>快速记录笔记到 Obsidian 收件箱</string>
+	<string>静默追加笔记到 Obsidian（不打开 Obsidian 应用）</string>
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
-	<string>Obsidian Quick Note</string>
+	<string>Obsidian Quick Memo</string>
 	<key>objects</key>
 	<array>
 		<dict>
