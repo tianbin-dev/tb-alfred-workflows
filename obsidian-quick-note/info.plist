@@ -81,6 +81,8 @@ QUERY="{query}"
 
 if [ -n "$VAULT_PATH" ]; then
     VAULT_DIR="$VAULT_PATH"
+elif [ -d "$HOME/Documents/$VAULT_NAME" ]; then
+    VAULT_DIR="$HOME/Documents/$VAULT_NAME"
 else
     VAULT_DIR="$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/$VAULT_NAME"
 fi
@@ -117,7 +119,7 @@ echo "已保存到: $NOTE_FILE"</string>
 				<key>removeextension</key>
 				<false/>
 				<key>text</key>
-				<string>笔记已保存到 Obsidian</string>
+				<string>{query}</string>
 				<key>title</key>
 				<string>Obsidian Quick Memo</string>
 			</dict>
