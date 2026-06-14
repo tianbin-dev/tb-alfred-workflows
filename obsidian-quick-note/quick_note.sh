@@ -1,28 +1,35 @@
 #!/bin/bash
 
-# ===== 配置区域 =====
-VAULT_NAME="你的知识库名称"
-FILE_NAME="00_Inbox"
-# ===================
+# 静默追加笔记到 Obsidian（不打开 Obsidian，直接写入 MD 文件
+# 用法: quick_note.sh "笔记内容"
+# 环境变量:
+#   vault_name  - 知识库名称（默认 tb-ob）
+#   file_name   - 目标 MD 文件名（不含 .md，默认 00_Inbox）
+#   vault_path   - 可选：覆盖知识库完整路径（使用时忽略 vault_name）
 
-# Alfred 通过标准输入传递参数
-NOTE_CONTENT=$(cat)
+VAULT_NAME="${vault_name:-tb-ob}"
+FILE_NAME="${file_name:-00_Inbox}"
+VAULT_PATH="${vault_path:-}"
 
-TIME_STAMP=$(date +"%H:%M")
-FORMATTED="- ${TIME_STAMP} ${NOTE_CONTENT}"
+QUERY="${1:-${QUERY}}"
 
-# URL 编码函数
-url_encode() {
-    python3 -c "import urllib.parse,sys; print(urllib.parse.quote(sys.argv[1]))" "$1"
-}
+if [ -z "$QUERY" ]; then
+    echo "用法: quick_note.sh <内容>"
+    exit 1
+fi
 
-ENCODED_CONTENT=$(url_encode "$FORMATTED")
-ENCODED_VAULT=$(url_encode "$VAULT_NAME")
-ENCODED_FILE=$(url_encode "$FILE_NAME")
+if [ -n "$VAULT_PATH" ]; then
+    VAULT_DIR="$VAULT_PATH"
+else
+    VAULT_DIR="$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/$VAULT_NAME"
+fi
 
-URI="obsidian://new?vault=${ENCODED_VAULT}&file=${ENCODED_FILE}&content=${ENCODED_CONTENT}&append=true"
+NOTE_FILE="$VAULT_DIR/$FILE_NAME.md"
 
-# 调用 Obsidian
-open "$URI"
+TIME=$(date +"%H:%M")
+TEXT_LINE="- $TIME $QUERY"
 
-echo "笔记已保存"
+mkdir -p "$VAULT_DIR"
+printf '%s\n' "$TEXT_LINE" >> "$NOTE_FILE"
+
+echo "已保存到: $NOTE_FILE"
