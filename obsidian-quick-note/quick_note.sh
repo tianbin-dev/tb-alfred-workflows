@@ -9,7 +9,7 @@
 
 VAULT_NAME="${vault_name:-tb-ob}"
 FILE_NAME="${file_name:-00_Inbox}"
-VAULT_PATH="${vault_path:-}"
+VAULT_PATH="${vault_path%/}"
 
 QUERY="${1:-${QUERY}}"
 
@@ -34,6 +34,4 @@ TEXT_LINE="- $TIME $QUERY"
 mkdir -p "$VAULT_DIR"
 printf '%s\n' "$TEXT_LINE" >> "$NOTE_FILE"
 
-osascript -e "display notification \"$QUERY\" with title \"Obsidian Quick Memo\""
-
-echo "已保存到: $NOTE_FILE"
+echo "✅ $QUERY"

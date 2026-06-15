@@ -34,6 +34,32 @@
 				<false/>
 			</dict>
 		</array>
+		<key>keyword-gtd-uid</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>script-gtd-uid</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>script-gtd-uid</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>notification-gtd-uid</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 	</dict>
 	<key>createdby</key>
 	<string>Obsidian Quick Memo</string>
@@ -76,7 +102,7 @@
 				<key>script</key>
 				<string>VAULT_NAME="${vault_name:-tb-ob}"
 FILE_NAME="${file_name:-00_Inbox}"
-VAULT_PATH="${vault_path:-}"
+VAULT_PATH="${vault_path%/}"
 QUERY="{query}"
 
 if [ -n "$VAULT_PATH" ]; then
@@ -95,9 +121,7 @@ TEXT_LINE="- $TIME $QUERY"
 mkdir -p "$VAULT_DIR"
 printf '%s\n' "$TEXT_LINE" >> "$NOTE_FILE"
 
-osascript -e "display notification \"$QUERY\" with title \"Obsidian Quick Memo\""
-
-echo "已保存到: $NOTE_FILE"</string>
+echo "✅ $QUERY"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -133,18 +157,105 @@ echo "已保存到: $NOTE_FILE"</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>keyword</key>
+				<string>gtd</string>
+				<key>subtext</key>
+				<string>记录待办，追加到 GTD 清单</string>
+				<key>text</key>
+				<string>GTD 待办</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>keyword-gtd-uid</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>VAULT_NAME="${vault_name:-tb-ob}"
+GTD_FILE="${gtd_file:-00_GTD}"
+VAULT_PATH="${vault_path%/}"
+QUERY="{query}"
+
+if [ -n "$VAULT_PATH" ]; then
+    VAULT_DIR="$VAULT_PATH"
+elif [ -d "$HOME/Documents/$VAULT_NAME" ]; then
+    VAULT_DIR="$HOME/Documents/$VAULT_NAME"
+else
+    VAULT_DIR="$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/$VAULT_NAME"
+fi
+
+NOTE_FILE="$VAULT_DIR/$GTD_FILE.md"
+
+TIME=$(date +"%H:%M")
+TEXT_LINE="- [ ] $TIME $QUERY"
+
+mkdir -p "$VAULT_DIR"
+printf '%s\n' "$TEXT_LINE" >> "$NOTE_FILE"
+
+echo "☑️ $QUERY"</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>script-gtd-uid</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>GTD 待办</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>notification-gtd-uid</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string>Obsidian Quick Memo - Alfred Workflow
 
 使用方法：
-1. Alfred 输入 km + 笔记内容
-2. 回车后静默追加到 Obsidian 笔记，不会打开 Obsidian 应用
-3. 右上角弹出 Alfred 通知表示写入成功
+1. km &lt;内容&gt;   — 静默追加笔记到 Inbox（格式：- HH:MM 内容）
+2. gtd &lt;内容&gt;  — 记录待办到 GTD 清单（格式：- [ ] HH:MM 内容）
+回车后写入 Obsidian，不会打开 Obsidian 应用
 
 变量配置：
 - vault_name:   知识库名称（默认 tb-ob）
-- file_name:    笔记文件名（不含 .md，默认 00_Inbox）
+- file_name:    km 目标文件（不含 .md，默认 00_Inbox）
+- gtd_file:     gtd 目标文件（不含 .md，默认 00_GTD）
 - vault_path:   （可选）知识库完整路径，不配置时使用 iCloud 默认路径
                 ~/Library/Mobile Documents/iCloud~md~obsidian/Documents/&lt;vault_name&gt;</string>
 	<key>uidata</key>
@@ -170,6 +281,27 @@ echo "已保存到: $NOTE_FILE"</string>
 			<key>ypos</key>
 			<real>40</real>
 		</dict>
+		<key>keyword-gtd-uid</key>
+		<dict>
+			<key>xpos</key>
+			<real>40</real>
+			<key>ypos</key>
+			<real>160</real>
+		</dict>
+		<key>script-gtd-uid</key>
+		<dict>
+			<key>xpos</key>
+			<real>250</real>
+			<key>ypos</key>
+			<real>160</real>
+		</dict>
+		<key>notification-gtd-uid</key>
+		<dict>
+			<key>xpos</key>
+			<real>460</real>
+			<key>ypos</key>
+			<real>160</real>
+		</dict>
 	</dict>
 	<key>variables</key>
 	<dict>
@@ -179,6 +311,8 @@ echo "已保存到: $NOTE_FILE"</string>
 		<string>00_Inbox</string>
 		<key>vault_path</key>
 		<string></string>
+		<key>gtd_file</key>
+		<string>00_GTD</string>
 	</dict>
 	<key>version</key>
 	<string>1.0.0</string>
